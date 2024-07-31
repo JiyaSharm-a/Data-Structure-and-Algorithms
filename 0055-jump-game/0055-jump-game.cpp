@@ -17,26 +17,27 @@ public:
 
         return ans;
     }
-    bool memo(vector<int> nums,int index,vector<int> &dp)
-    {
-        // base case
-        if(index >= nums.size() - 1)
-        return true;
+    bool memo(vector<int> &nums, int index, vector<int> &dp) {
+        // base case: reached the end of the array
+        if (index >= nums.size() - 1) {
+            return true;
+        }
 
-        if(nums[index] == 0)
-        return false;
+        // if current position has zero steps to move, we can't move forward
+        if (nums[index] == 0) {
+            return false;
+        }
 
-        if(dp[index] != -1)
-        return dp[index];
+        // check if the result is already computed
+        if (dp[index] != -1) {
+            return dp[index];
+        }
 
+        // recursive case
         bool ans = false;
-        for(int i=1; i<nums[index]+1; i++)
-        {
-            ans = ans || memo(nums,index+i,dp);
-
-            // if ans found i.e if true then break
-            if (ans) 
-            {
+        for (int i = 1; i <= nums[index]; ++i) {
+            ans = ans || memo(nums, index + i, dp);
+            if (ans) {
                 break;
             }
         }
@@ -44,8 +45,9 @@ public:
         dp[index] = ans;
         return dp[index];
     }
+
     bool canJump(vector<int>& nums) {
-        vector<int> dp(nums.size()+1, -1);
-        return memo(nums,0,dp);
+        vector<int> dp(nums.size(), -1);  // Initialize dp array with -1
+        return memo(nums, 0, dp);
     }
 };
