@@ -17,6 +17,6 @@ public:
             }
         }
         
-        return st.size();  // The number of unmatched parentheses left in the stack
+        return st.size();  
     }
 };
