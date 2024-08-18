@@ -1,33 +1,34 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
-        ListNode* temp = head;
-
-        if(temp == NULL || temp->next == NULL)
-        return head;
-
-        int p;
-        p = temp->val;
-        temp->val = temp->next->val;
-        temp->next->val = p;
-
-        // recursive approach
-        if(temp->next->next != NULL)
-        {
-            temp->next->next = swapPairs(temp->next->next);
+        // Base case: If the list is empty or has only one node, no swap needed
+        if (head == nullptr || head->next == nullptr) {
+            return head;
         }
 
-        return head;
-        
+        // Initialize pointers
+        ListNode* prev = head;
+        ListNode* curr = head->next;
+        ListNode* newHead = curr;  // The new head will be the second node after the first swap
+
+        // Loop to swap every pair of nodes
+        while (true) {
+            // Perform the swap
+            prev->next = curr->next;
+            curr->next = prev;
+
+            // Prepare for the next swap
+            if (prev->next == nullptr || prev->next->next == nullptr) {
+                break;  // If no more pairs left, exit the loop
+            }
+
+            // Move to the next pair
+            ListNode* nextPair = prev->next;
+            prev->next = nextPair->next;
+            prev = nextPair;
+            curr = prev->next;
+        }
+
+        return newHead;
     }
 };
